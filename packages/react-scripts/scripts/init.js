@@ -22,6 +22,8 @@ const spawn = require('react-dev-utils/crossSpawn');
 const { defaultBrowsers } = require('react-dev-utils/browsersHelper');
 const os = require('os');
 const verifyTypeScriptSetup = require('./utils/verifyTypeScriptSetup');
+const customPackages = require('../config/customPackages');
+const getCustomOptions = require('../config/customOptions');
 
 function isInGitRepository() {
   try {
@@ -53,7 +55,7 @@ function tryGitInit(appPath) {
     didInit = true;
 
     execSync('git add -A', { stdio: 'ignore' });
-    execSync('git commit -m "Initial commit from Create React App"', {
+    execSync('git commit -m "initial commit"', {
       stdio: 'ignore',
     });
     return true;
@@ -75,7 +77,7 @@ function tryGitInit(appPath) {
   }
 }
 
-module.exports = function(
+module.exports = async function(
   appPath,
   appName,
   verbose,
@@ -87,6 +89,8 @@ module.exports = function(
   );
   const appPackage = require(path.join(appPath, 'package.json'));
   const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
+
+  const { useRedux } = await getCustomOptions();
 
   // Copy over some of the devDependencies
   appPackage.dependencies = appPackage.dependencies || {};
@@ -133,6 +137,10 @@ module.exports = function(
       `Could not locate supplied template: ${chalk.green(templatePath)}`
     );
     return;
+  }
+
+  if (useRedux) {
+    copyReduxTemplates(useTypeScript, ownPath, appPath);
   }
 
   // Rename gitignore after the fact to prevent npm from renaming it to .npmignore
@@ -195,6 +203,8 @@ module.exports = function(
     }
   }
 
+  installCustomDependencies(useYarn, useRedux, verbose);
+
   if (useTypeScript) {
     verifyTypeScriptSetup();
   }
@@ -231,16 +241,16 @@ module.exports = function(
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} test`));
   console.log('    Starts the test runner.');
-  console.log();
-  console.log(
-    chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}eject`)
-  );
-  console.log(
-    '    Removes this tool and copies build dependencies, configuration files'
-  );
-  console.log(
-    '    and scripts into the app directory. If you do this, you can’t go back!'
-  );
+  //   console.log();
+  //   console.log(
+  //     chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}eject`)
+  //   );
+  //   console.log(
+  //     '    Removes this tool and copies build dependencies, configuration files'
+  //   );
+  //   console.log(
+  //     '    and scripts into the app directory. If you do this, you can’t go back!'
+  //   );
   console.log();
   console.log('We suggest that you begin by typing:');
   console.log();
@@ -265,4 +275,40 @@ function isReactInstalled(appPackage) {
     typeof dependencies.react !== 'undefined' &&
     typeof dependencies['react-dom'] !== 'undefined'
   );
+}
+
+function installCustomDependencies(useYarn, useRedux, verbose) {
+  if (Object.values(customPackages).reduce((agg, p) => agg + p.length, 0) > 0) {
+    const command = useYarn ? 'yarnpkg' : 'npm';
+    console.log(`Installing ${chalk.cyan('custom')} dependencies...`);
+
+    const customPackagesArgs = [
+      useYarn ? 'add' : 'install',
+      !useYarn && '--save',
+      verbose && '--verbose',
+      ...customPackages.app,
+      ...customPackages.redux.filter(() => useRedux),
+    ].filter(e => e);
+    const proc = spawn.sync(command, customPackagesArgs, { stdio: 'inherit' });
+    if (proc.status !== 0) {
+      console.error(`\`${command} ${customPackagesArgs.join(' ')}\` failed`);
+      return;
+    }
+  }
+}
+
+function copyReduxTemplates(useTypeScript, ownPath, appPath) {
+  console.log('Copying redux structure to app');
+  const templatePath = path.join(
+    ownPath,
+    useTypeScript ? 'redux-template-typescript' : 'redux-template'
+  );
+  if (fs.existsSync(templatePath)) {
+    fs.copySync(templatePath, appPath);
+  } else {
+    console.error(
+      `Could not locate supplied template: ${chalk.green(templatePath)}`
+    );
+    return;
+  }
 }

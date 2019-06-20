@@ -1,10 +1,10 @@
 {
-  "name": "react-scripts",
-  "version": "3.0.1",
-  "description": "Configuration and scripts for Create React App.",
+  "name": "jmoore-react-scripts",
+  "version": "3.0.4",
+  "description": "Custom configuration and scripts for Create React App.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/create-react-app.git",
+    "url": "https://github.com/jmoore1127/create-react-app.git",
     "directory": "packages/react-scripts"
   },
   "license": "MIT",
@@ -67,6 +67,7 @@
     "postcss-normalize": "7.0.1",
     "postcss-preset-env": "6.6.0",
     "postcss-safe-parser": "4.0.1",
+    "prompt": "^1.0.0",
     "react-app-polyfill": "^1.0.1",
     "react-dev-utils": "^9.0.1",
     "resolve": "1.10.0",
