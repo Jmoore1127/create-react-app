@@ -1,0 +1,14 @@
+import React from 'react';
+import { render, cleanup } from '@testing-library/react';
+import { {{pascalCase name}} } from './{{kebabCase name}}.component';
+
+const renderComponent = (props = {}) => render(<{{pascalCase name}} {...props} />);
+
+describe('{{pascalCase name}}', () => {
+  afterEach(cleanup);
+
+  it('renders without crashing', () => {
+    const { container } = renderComponent();
+    expect(container.firstChild).toBeDefined();
+  });
+});

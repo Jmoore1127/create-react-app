@@ -1,0 +1,9 @@
+import { storiesOf } from '@storybook/react';
+import { text } from '@storybook/addon-knobs';
+import React from 'react';
+import { {{pascalCase name}} } from './{{kebabCase name}}.component';
+
+storiesOf('{{pascalCase name}}', module)
+  .add('Configurable', () => {
+    return (<{{pascalCase name}} name={text('Name', '{{kebabCase name}}')} />);
+  });

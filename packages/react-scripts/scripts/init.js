@@ -113,6 +113,8 @@ module.exports = async function(
   // Setup the browsers list
   appPackage.browserslist = defaultBrowsers;
 
+  addCustomaPackageJsonProperties(appPackage, useRedux, useTypeScript);
+
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
     JSON.stringify(appPackage, null, 2) + os.EOL
@@ -275,6 +277,14 @@ function isReactInstalled(appPackage) {
     typeof dependencies.react !== 'undefined' &&
     typeof dependencies['react-dom'] !== 'undefined'
   );
+}
+
+function addCustomaPackageJsonProperties(appPackage, useRedux, useTypeScript) {
+  if (useRedux) {
+    appPackage.sideEffects = useTypeScript
+      ? ['./src/redux/setup/**/*.ts']
+      : ['./src/redux/setup/**/*.js'];
+  }
 }
 
 function installCustomDependencies(useYarn, useRedux, verbose) {

@@ -75,7 +75,7 @@ test('bad comes back same', async () => {
       _scriptCode: null,
       columnNumber: 2,
       fileName: 'A',
-      functionName: 'App.componentDidMount',
+      functionName: 'app.component.js.componentDidMount',
       lineNumber: 1,
     },
   ]);

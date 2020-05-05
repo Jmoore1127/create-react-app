@@ -1,0 +1,20 @@
+import React from 'react';
+import { render, cleanup } from '@testing-library/react';
+import { {{pascalCase name}}Container } from './{{kebabCase name}}.container';
+
+const renderComponent = (props = {}) => render(<{{pascalCase name}}Container {...props} />);
+
+describe('{{pascalCase name}}Container', () => {
+  afterEach(cleanup);
+
+  it('returns a function', () => {
+    const actual = typeof {{pascalCase name}}Container;
+    const expected = 'function';
+    expect(actual).toEqual(expected);
+  });
+
+  it('renders without crashing', () => {
+    const { container } = renderComponent();
+    expect(container.firstChild).toBeDefined();
+  });
+});
