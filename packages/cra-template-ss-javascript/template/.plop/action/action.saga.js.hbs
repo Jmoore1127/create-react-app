@@ -1,0 +1,9 @@
+import { {{camelCase name}} } from './{{kebabCase name}}.action';
+
+function* handle{{pascalCase name}}(action) {
+    console.log(action);
+}
+
+export function* {{camelCase name}}Saga() {
+    yield takeEvery({{camelCase name}}.String(), handle{{pascalCase name}})
+}

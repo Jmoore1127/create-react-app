@@ -1,0 +1,11 @@
+import { createAction, handleAction } from 'redux-actions';
+
+export const {{camelCase name}} = createAction('{{constantCase name}}');
+
+const defaultState = {};
+
+export const {{camelCase name}}Reducer = handleAction({{camelCase name}},
+  (state, action) => {
+    return { ...state,  {{camelCase name}}: action.payload };
+  },
+defaultState);

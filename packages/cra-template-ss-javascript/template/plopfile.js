@@ -47,11 +47,6 @@ module.exports = function(plop) {
           '{{src}}/components/{{kebabCase feature}}/{{kebabCase name}}/{{kebabCase name}}.component.jsx',
         templateFile: '.plop/component/component.jsx.hbs',
       },
-      //   {
-      //     type: 'add',
-      //     path: '{{src}}/components/{{kebabCase feature}}/{{kebabCase name}}/{{kebabCase name}}.component.stories.jsx',
-      //     templateFile: '.plop/component/component.stories.jsx.hbs',
-      //   },
       {
         type: 'add',
         path:
@@ -61,8 +56,8 @@ module.exports = function(plop) {
       {
         type: 'add',
         path:
-          '{{src}}/components/{{kebabCase feature}}/{{kebabCase name}}/{{kebabCase name}}.component.module.css',
-        templateFile: '.plop/component/component.module.css.hbs',
+          '{{src}}/components/{{kebabCase feature}}/{{kebabCase name}}/{{kebabCase name}}.component.styles.js',
+        templateFile: '.plop/component/component.styles.js.hbs',
       },
       {
         type: 'add',
@@ -70,12 +65,6 @@ module.exports = function(plop) {
           '{{src}}/components/{{kebabCase feature}}/{{kebabCase name}}/index.js',
         templateFile: '.plop/component/index.js.hbs',
       },
-      //   {
-      //     type: 'append',
-      //     path: '{{src}}/components/{{kebabCase feature}}/index.js',
-      //     template: "export * from './{{kebabCase name}}';",
-      //     abortOnFail: false
-      //   }
     ],
   });
 
@@ -113,13 +102,13 @@ module.exports = function(plop) {
         type: 'add',
         path:
           '{{src}}/components/{{kebabCase feature}}/{{kebabCase name}}/{{kebabCase name}}.container.test.js',
-        templateFile: '.plop/container.test.hbs',
+        templateFile: '.plop/container/container.test.js.hbs',
       },
       {
         type: 'append',
         path:
-          '{{src}}/components/{{kebabCase feature}}/{{kebabCase name}}/{{kebabCase name}}.container.js',
-        template: "export * from './{{kebabCase name}}.container';",
+          '{{src}}/components/{{kebabCase feature}}/{{kebabCase name}}/index.js',
+        template: "export { {{pascalCase name}}Container } from './{{kebabCase name}}.container';",
         abortOnFail: false,
       },
     ],
@@ -141,77 +130,18 @@ module.exports = function(plop) {
     actions: [
       {
         type: 'add',
-        path: '{{cwd}}/{{kebabCase name}}/{{kebabCase name}}.action.js',
-        templateFile: '.plop/action.hbs',
+        path: 'src/redux/actions/{{kebabCase name}}/{{kebabCase name}}.action.js',
+        templateFile: '.plop/action/action.js.hbs',
       },
       {
         type: 'add',
-        path: '{{cwd}}/{{kebabCase name}}/{{kebabCase name}}.action.test.js',
-        templateFile: '.plop/action.test.hbs',
+        path: 'src/redux/actions/{{kebabCase name}}/{{kebabCase name}}.action.test.js',
+        templateFile: '.plop/action/action.test.js.hbs',
       },
       {
         type: 'add',
-        path: '{{cwd}}/{{kebabCase name}}/index.js',
-        templateFile: '.plop/action-index.hbs',
-      },
-    ],
-  });
-
-  plop.setGenerator('action:network', {
-    description: 'Create a redux action/reducer/logic set for networking',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-        message: 'Action name?',
-        validate: value => {
-          if (value.length) return true;
-          return 'Action name is required.';
-        },
-      },
-    ],
-    actions: [
-      {
-        type: 'add',
-        path: '{{cwd}}/{{kebabCase name}}/{{kebabCase name}}.action.js',
-        templateFile: '.plop/action-network.hbs',
-      },
-      {
-        type: 'add',
-        path: '{{cwd}}/{{kebabCase name}}/{{kebabCase name}}.action.test.js',
-        templateFile: '.plop/action-network.test.hbs',
-      },
-      {
-        type: 'add',
-        path: '{{cwd}}/{{kebabCase name}}/index.js',
-        templateFile: '.plop/action-index.hbs',
-      },
-    ],
-  });
-
-  plop.setGenerator('selector', {
-    description: 'Create a reselect selector',
-    prompts: [
-      {
-        type: 'input',
-        name: 'name',
-        message: 'Name?',
-        validate: value => {
-          if (value.length) return true;
-          return 'Selector name is required.';
-        },
-      },
-    ],
-    actions: [
-      {
-        type: 'add',
-        path: '{{cwd}}/{{kebabCase name}}.selectors.js',
-        templateFile: '.plop/selectors.hbs',
-      },
-      {
-        type: 'add',
-        path: '{{cwd}}/{{kebabCase name}}.selectors.test.js',
-        templateFile: '.plop/selectors.test.hbs',
+        path: 'src/redux/actions/{{kebabCase name}}/index.js',
+        templateFile: '.plop/action/index.js.hbs',
       },
     ],
   });

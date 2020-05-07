@@ -1,0 +1,15 @@
+import { {{camelCase name}}, {{camelCase name}}Reducer } from './{{kebabCase name}}.action';
+
+describe('{{camelCase name}} Action', () => {
+  it('creates actions with a payload', () => {
+    const expected = { abc: 123 };
+    const actual = {{camelCase name}}(expected);
+    expect(actual.payload).toEqual(expected);
+    expect(actual.type).toEqual('{{constantCase name}}');
+  });
+
+  it('reduces the state change', () => {
+    const newState = {{camelCase name}}Reducer({}, {{camelCase name}}('test'));
+    expect(newState).toEqual({ {{camelCase name}}: 'test' });
+  });
+});
